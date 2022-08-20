@@ -2,7 +2,7 @@
   "name": "do-i-understand-webpack-dev-middleware",
   "packageManager": "yarn@3.2.2",
   "scripts": {
-    "dev": "tsnd ./server/server.ts"
+    "dev": "cross-env NODE_ENV=development tsnd ./server/server.ts"
   },
   "devDependencies": {
     "@types/hapi__boom": "^9.0.1",
@@ -10,12 +10,19 @@
     "@types/hapi__inert": "^5.2.3",
     "@types/node": "^18.7.8",
     "@types/rimraf": "^3",
+    "@types/webpack-hot-middleware": "^2",
     "@yarnpkg/pnpify": "^4.0.0-rc.14",
     "cross-env": "^7.0.3",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.6.1",
     "rimraf": "^3.0.2",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^4.7.4"
+    "typescript": "^4.7.4",
+    "webpack": "^5.74.0",
+    "webpack-dev-middleware": "^5.3.3",
+    "webpack-hot-middleware": "^2.25.2",
+    "webpack-merge": "^5.8.0"
   },
   "dependencies": {
     "@hapi/boom": "^10.0.0",

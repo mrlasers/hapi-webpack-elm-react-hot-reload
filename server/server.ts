@@ -1,8 +1,5 @@
 import Path from 'path'
-import { promisify } from 'util'
 import Webpack from 'webpack'
-import WebpackDevMiddleware from 'webpack-dev-middleware'
-import WebpackHotMiddleware from 'webpack-hot-middleware'
 
 import Hapi from '@hapi/hapi'
 
@@ -47,13 +44,8 @@ async function init(
       {
         method: '*',
         path: '/{any*}',
-        options: {
-          files: {
-            relativeTo: Path.join(__dirname, '../public'),
-          },
-        },
-        handler: (request, h) => {
-          return h.file('../public/index.html').type('text/html')
+        handler: (_, h) => {
+          return h.file('index.html')
         },
       },
     ])
@@ -64,7 +56,7 @@ async function init(
     const devMiddleware = require('webpack-dev-middleware')(compiler, {
       publicPath: WebpackConfig.output.publicPath,
     })
-    const hotMiddleware = WebpackHotMiddleware(compiler, {
+    const hotMiddleware = require('webpack-hot-middleware')(compiler, {
       log: console.log,
       path: '/__webpack_hmr',
     })

@@ -1,3 +1,4 @@
+import { IncomingMessage, ServerResponse } from 'http'
 import Path from 'path'
 import Webpack from 'webpack'
 
@@ -52,6 +53,21 @@ async function init(
   }
 
   if (mode === 'development') {
+    const onRequestMiddleware =
+      (
+        middleware: (
+          request: IncomingMessage,
+          response: ServerResponse,
+          cb: (err: any) => void
+        ) => void
+      ): Hapi.Lifecycle.Method =>
+      (request, h) => {
+        return new Promise((resolve, reject) =>
+          middleware(request.raw.req, request.raw.res, (err: any) => {
+            err ? reject(err) : resolve(h.continue)
+          })
+        )
+      }
     const compiler = Webpack(WebpackConfig)
     const devMiddleware = require('webpack-dev-middleware')(compiler, {
       publicPath: WebpackConfig.output.publicPath,
@@ -62,26 +78,8 @@ async function init(
     })
 
     server.ext([
-      {
-        type: 'onRequest',
-        method: (request, h) => {
-          return new Promise((resolve, reject) => {
-            devMiddleware(request.raw.req, request.raw.res, (err: any) =>
-              err ? reject(err) : resolve(h.continue)
-            )
-          })
-        },
-      },
-      {
-        type: 'onRequest',
-        method: (request, h) => {
-          return new Promise((resolve, reject) => {
-            hotMiddleware(request.raw.req, request.raw.res, (err: any) =>
-              err ? reject(err) : resolve(h.continue)
-            )
-          })
-        },
-      },
+      { type: 'onRequest', method: onRequestMiddleware(devMiddleware) },
+      { type: 'onRequest', method: onRequestMiddleware(hotMiddleware) },
     ])
 
     server.route({
@@ -91,7 +89,7 @@ async function init(
         return new Promise((resolve, reject) => {
           const filename = Path.join(compiler.outputPath, 'index.html')
           compiler.outputFileSystem.readFile(filename, (err, result) =>
-            err ? reject(err) : resolve(h.response(result).type('text/html'))
+            err ? reject(err) : resolve(h.response(result))
           )
         })
       },

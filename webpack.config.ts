@@ -16,6 +16,11 @@ const commonConfig: Configuration = {
   module: {
     noParse: /\.elm$/,
   },
+  output: {
+    filename: '[name].js',
+    path: Path.resolve(__dirname, 'dist/public'),
+    publicPath: '/',
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: './client/static/index.html',
@@ -28,13 +33,13 @@ const commonConfig: Configuration = {
 const devConfig: Configuration = {
   devtool: 'cheap-module-source-map',
   entry: ['webpack-hot-middleware/client?path=/__webpack_hmr'],
-  output: {
-    filename: '[name].js',
-    path: Path.resolve(__dirname, 'dist/public'),
-    publicPath: '/',
-  },
   module: {},
   plugins: [new Webpack.HotModuleReplacementPlugin()],
 }
 
-export default merge(commonConfig, devConfig)
+const prodConfig: Configuration = {
+  module: {},
+  plugins: [new MiniCssExtractPlugin()],
+}
+
+export default merge(commonConfig, isDev ? devConfig : prodConfig)

@@ -1,5 +1,3 @@
-console.log("It's working, ain't it!?!")
-
 const app = getAppContainer()
 
 app.innerHTML =

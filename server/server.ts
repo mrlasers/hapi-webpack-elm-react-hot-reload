@@ -15,20 +15,48 @@ async function init(
   const server = Hapi.server({
     port: port,
     host: host,
+    routes: {
+      files: {
+        relativeTo: Path.join(__dirname, '../public'),
+      },
+    },
   })
 
   await server.register([
     { plugin: require('blipp'), options: { showAuth: true } },
+    require('@hapi/inert'),
   ])
 
   if (mode !== 'development') {
-    server.route({
-      method: '*',
-      path: '/{any*}',
-      handler: (request, h) => {
-        return `Hapi server has not yet been implemented.`
+    server.route([
+      {
+        method: 'GET',
+        path: '/{file}.{ext}',
+        handler: (request, h) => {
+          const { file, ext } = request.params
+
+          switch (ext) {
+            default:
+              return h.continue
+            case 'js':
+            case 'css':
+              return h.file(file + '.' + ext)
+          }
+        },
       },
-    })
+      {
+        method: '*',
+        path: '/{any*}',
+        options: {
+          files: {
+            relativeTo: Path.join(__dirname, '../public'),
+          },
+        },
+        handler: (request, h) => {
+          return h.file('../public/index.html').type('text/html')
+        },
+      },
+    ])
   }
 
   if (mode === 'development') {

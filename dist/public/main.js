@@ -1,0 +1,1 @@
+(function(){const t=document.getElementById("app");if(t)return t;const e=document.createElement("div");return e.setAttribute("id","app"),document.body.appendChild(e),e}()).innerHTML="<p>He was a <strong>dark</strong> and <em>stormy</em> knight...</p>";

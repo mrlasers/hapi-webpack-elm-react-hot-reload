@@ -1,10 +1,10 @@
-import { IncomingMessage, ServerResponse } from 'http'
 import Path from 'path'
 import Webpack from 'webpack'
 
 import Hapi from '@hapi/hapi'
 
 import WebpackConfig, { mode } from '../webpack.config'
+import DevMiddlewarePlugin from './webpack-dev-plugin'
 
 async function init(
   port: number = 8000,
@@ -25,76 +25,15 @@ async function init(
     require('@hapi/inert'),
   ])
 
-  if (mode !== 'development') {
-    server.route([
-      {
-        method: 'GET',
-        path: '/{file}.{ext}',
-        handler: (request, h) => {
-          const { file, ext } = request.params
-
-          switch (ext) {
-            default:
-              return h.continue
-            case 'js':
-            case 'css':
-              return h.file(file + '.' + ext)
-          }
-        },
+  await server.register([
+    {
+      plugin: DevMiddlewarePlugin,
+      options: {
+        production: mode === 'production',
+        webpackConfig: WebpackConfig,
       },
-      {
-        method: '*',
-        path: '/{any*}',
-        handler: (_, h) => {
-          return h.file('index.html')
-        },
-      },
-    ])
-  }
-
-  if (mode === 'development') {
-    const onRequestMiddleware =
-      (
-        middleware: (
-          request: IncomingMessage,
-          response: ServerResponse,
-          cb: (err: any) => void
-        ) => void
-      ): Hapi.Lifecycle.Method =>
-      (request, h) => {
-        return new Promise((resolve, reject) =>
-          middleware(request.raw.req, request.raw.res, (err: any) => {
-            err ? reject(err) : resolve(h.continue)
-          })
-        )
-      }
-    const compiler = Webpack(WebpackConfig)
-    const devMiddleware = require('webpack-dev-middleware')(compiler, {
-      publicPath: WebpackConfig.output.publicPath,
-    })
-    const hotMiddleware = require('webpack-hot-middleware')(compiler, {
-      log: console.log,
-      path: '/__webpack_hmr',
-    })
-
-    server.ext([
-      { type: 'onRequest', method: onRequestMiddleware(devMiddleware) },
-      { type: 'onRequest', method: onRequestMiddleware(hotMiddleware) },
-    ])
-
-    server.route({
-      method: '*',
-      path: '/{any*}',
-      handler: (request, h) => {
-        return new Promise((resolve, reject) => {
-          const filename = Path.join(compiler.outputPath, 'index.html')
-          compiler.outputFileSystem.readFile(filename, (err, result) =>
-            err ? reject(err) : resolve(h.response(result))
-          )
-        })
-      },
-    })
-  }
+    },
+  ])
 
   await server.start().catch(console.error)
 

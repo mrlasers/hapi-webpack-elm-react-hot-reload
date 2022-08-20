@@ -18,7 +18,7 @@ const commonConfig: Configuration = {
   },
   output: {
     filename: '[name].js',
-    path: Path.resolve(__dirname, 'dist/public'),
+    path: Path.resolve(__dirname, 'dist/client'),
     publicPath: '/',
   },
   plugins: [

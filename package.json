@@ -4,7 +4,9 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack; tsc",
     "start": "cross-env NODE_ENV=production node ./dist/server/server.js",
-    "dev": "cross-env NODE_ENV=development tsnd ./server/server.ts"
+    "go": "yarn build && yarn start",
+    "dev": "cross-env NODE_ENV=development tsnd ./server/server.ts",
+    "clean": "rimraf ./dist"
   },
   "devDependencies": {
     "@types/hapi__boom": "^9.0.1",

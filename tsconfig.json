@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "lib": ["ESNext", "DOM"],
+    "module": "CommonJS",
+    "noImplicitAny": true,
+    "outDir": "dist",
+    "removeComments": true,
+    "target": "ES2015",
+    "sourceMap": true
+  },
+  "files": ["./server/server.ts"],
+  "exclude": ["node_modules"]
+}

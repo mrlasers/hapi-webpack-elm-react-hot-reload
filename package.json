@@ -1,5 +1,5 @@
 {
-  "name": "do-i-understand-webpack-dev-middleware",
+  "name": "hapi-webpack-server-example",
   "packageManager": "yarn@3.2.2",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack; tsc",

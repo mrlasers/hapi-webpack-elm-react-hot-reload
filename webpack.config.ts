@@ -9,12 +9,19 @@ export const mode = isDev ? 'development' : 'production'
 
 const commonConfig: Configuration = {
   mode: mode,
-  entry: ['./client/static/index.js'],
+  entry: ['./client/static/index.ts'],
   resolve: {
-    extensions: ['.js', '.elm'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.elm'],
   },
   module: {
     noParse: /\.elm$/,
+    rules: [
+      {
+        test: /\.tsx?$/,
+        exclude: [/node_modules/],
+        use: ['ts-loader'],
+      },
+    ],
   },
   output: {
     filename: '[name].js',

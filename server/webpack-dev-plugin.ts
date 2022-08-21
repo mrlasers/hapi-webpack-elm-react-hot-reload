@@ -2,6 +2,7 @@ import { IncomingMessage, ServerResponse } from 'http'
 import Path from 'path'
 import Webpack, { Configuration } from 'webpack'
 
+import Boom from '@hapi/boom'
 import Hapi from '@hapi/hapi'
 
 const WebpackDevMiddlewarePlugin: Hapi.Plugin<{
@@ -85,15 +86,11 @@ function configureDevelopment(
   server.route({
     method: '*',
     path: '/{any*}',
-    options: {
-      cache: false,
-    },
     handler: (request, h) => {
-      console.log('hitting the any route with:', request.url.href)
       return new Promise((resolve, reject) => {
         const filename = Path.join(compiler.outputPath, 'index.html')
         compiler.outputFileSystem.readFile(filename, (err, result) =>
-          err ? reject(err) : resolve(h.response(result))
+          err ? reject(err) : resolve(h.response(result).type('text/html'))
         )
       })
     },

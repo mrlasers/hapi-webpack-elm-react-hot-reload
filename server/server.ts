@@ -38,7 +38,7 @@ async function init(
   server.route([
     {
       method: 'GET',
-      path: '/api/books',
+      path: '/api/books/{bookId?}',
       handler: (request, h) => {
         return [
           {

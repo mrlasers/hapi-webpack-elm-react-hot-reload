@@ -1,15 +1,16 @@
 {
   "compilerOptions": {
     "esModuleInterop": true,
+    "jsx": "react",
     "lib": ["ESNext", "DOM"],
     "module": "CommonJS",
     "noImplicitAny": true,
     "outDir": "dist",
     "removeComments": true,
-    "target": "ES2015",
     "sourceMap": true,
-    "strict": true
+    "strict": true,
+    "target": "ES2015"
   },
-  "files": ["./server/server.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "files": ["./server/server.ts"]
 }

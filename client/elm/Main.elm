@@ -2,6 +2,7 @@ module Main exposing (..)
 
 import Browser
 import Html exposing (..)
+import Html.Attributes exposing (..)
 
 
 type Msg
@@ -15,8 +16,11 @@ type alias Model =
 view : Model -> Html Msg
 view _ =
     section []
-        [ nav [] [ h1 [] [ text "Elm App" ] ]
-        , div [] [ p [] [ text "This is a little Elm app running in our page. It does hot reloading and all that jazz." ] ]
+        [ nav [] [ h1 [] [ text "Elm App" ], input [ type_ "text" ] [] ]
+        , div []
+            [ p [] [ text "This is a little Elm app running in our page. It does hot reloading and all that jazz." ]
+            , p [] [ text "The End." ]
+            ]
         ]
 
 

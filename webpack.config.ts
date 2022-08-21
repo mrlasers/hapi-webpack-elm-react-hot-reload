@@ -4,6 +4,8 @@ import Path from 'path'
 import Webpack, { Configuration } from 'webpack'
 import { merge } from 'webpack-merge'
 
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin'
+
 const isDev = process.env.NODE_ENV !== 'production'
 export const mode = isDev ? 'development' : 'production'
 
@@ -50,7 +52,10 @@ const devConfig: Configuration = {
   devtool: 'cheap-module-source-map',
   entry: ['webpack-hot-middleware/client?path=/__webpack_hmr'],
   module: {},
-  plugins: [new Webpack.HotModuleReplacementPlugin()],
+  plugins: [
+    new Webpack.HotModuleReplacementPlugin(),
+    new ReactRefreshWebpackPlugin(),
+  ],
 }
 
 const prodConfig: Configuration = {

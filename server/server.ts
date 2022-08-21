@@ -15,7 +15,7 @@ async function init(
     host: host,
     routes: {
       files: {
-        relativeTo: Path.join(__dirname, '../public'),
+        relativeTo: Path.join(__dirname, '../client'),
       },
     },
   })

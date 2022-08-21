@@ -35,6 +35,21 @@ async function init(
     },
   ])
 
+  server.route([
+    {
+      method: 'GET',
+      path: '/api/books',
+      handler: (request, h) => {
+        return [
+          {
+            title: "Hello, World!: A Beginner's Guide to Ebook Development",
+            author: 'Timothy Pew',
+          },
+        ]
+      },
+    },
+  ])
+
   await server.start().catch(console.error)
 
   return server.info

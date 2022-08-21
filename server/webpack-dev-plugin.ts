@@ -85,7 +85,11 @@ function configureDevelopment(
   server.route({
     method: '*',
     path: '/{any*}',
+    options: {
+      cache: false,
+    },
     handler: (request, h) => {
+      console.log('hitting the any route with:', request.url.href)
       return new Promise((resolve, reject) => {
         const filename = Path.join(compiler.outputPath, 'index.html')
         compiler.outputFileSystem.readFile(filename, (err, result) =>

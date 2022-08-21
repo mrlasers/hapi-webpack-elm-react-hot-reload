@@ -18,6 +18,7 @@ if (module.hot) {
 
 // gotta do this for Elm, because it doesn't replace what's inside the element, it replaces the entire element
 function getInnerContainer(element: HTMLElement) {
+  console.log('getInnerContainer()')
   const innerEl = document.createElement('div')
   element.innerHTML = ''
   element.appendChild(innerEl)
@@ -30,6 +31,7 @@ function getContainerElement(
   parent?: HTMLElement,
   doubleStuff?: boolean
 ): HTMLElement {
+  console.log('getContainerElement()')
   const el = document.getElementById(elementId)
 
   if (el) {

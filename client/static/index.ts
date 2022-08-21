@@ -1,22 +1,23 @@
-const app = getAppContainer()
+import { Elm } from '../elm/Main'
+import { Vanilla } from '../vanilla'
 
-app.innerHTML =
-  '<p>He was a <strong>dark</strong> and <em>stormy</em> knight...</p>'
+Vanilla(getContainerElement('vanilla'))
+Elm.Main.init({ node: getContainerElement('elm') })
 
 if (module.hot) {
   module.hot.accept()
 }
 
-function getAppContainer() {
-  const app = document.getElementById('app')
+function getContainerElement(elementId: string) {
+  const el = document.getElementById(elementId)
 
-  if (app) {
-    return app
+  if (el) {
+    return el
   }
 
-  const newApp = document.createElement('div')
-  newApp.setAttribute('id', 'app')
-  document.body.appendChild(newApp)
+  const nextEl = document.createElement('div')
+  nextEl.setAttribute('id', elementId)
+  document.body.appendChild(nextEl)
 
-  return newApp
+  return nextEl
 }

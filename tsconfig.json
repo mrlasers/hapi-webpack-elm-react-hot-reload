@@ -7,7 +7,8 @@
     "outDir": "dist",
     "removeComments": true,
     "target": "ES2015",
-    "sourceMap": true
+    "sourceMap": true,
+    "strict": true
   },
   "files": ["./server/server.ts"],
   "exclude": ["node_modules"]

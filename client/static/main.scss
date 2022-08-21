@@ -1,0 +1,23 @@
+body {
+  background-color: blue;
+}
+
+#app {
+  display: flex;
+  justify-content: space-around;
+
+  & > * {
+    border: 5px solid black;
+    padding: 3rem;
+  }
+
+  & * {
+    *:first-child {
+      margin-top: 0;
+    }
+
+    *:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

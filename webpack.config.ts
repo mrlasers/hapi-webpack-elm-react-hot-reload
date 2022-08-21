@@ -26,6 +26,10 @@ const commonConfig: Configuration = {
         exclude: [/elm-stuff/, /node_modules/],
         use: ['elm-hot-webpack-loader', 'elm-webpack-loader'],
       },
+      {
+        test: /\.sc?ss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
     ],
   },
   output: {

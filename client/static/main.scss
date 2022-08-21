@@ -9,7 +9,9 @@ html *,
 }
 
 body {
-  background-color: silver;
+  background-color: blue;
+  margin: 0;
+  padding: 0;
 }
 
 header {
@@ -17,13 +19,15 @@ header {
   margin-bottom: 2rem;
   font-family: 'Courier New', Courier, monospace;
   font-size: 1.5rem;
+  color: white;
 }
 
 #app {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 3rem;
-  padding-inline: 4rem;
+  // padding-inline: 4rem;
+  width: 100%;
 
   & > * {
     border: 0.5rem solid white;
